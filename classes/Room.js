@@ -1,6 +1,6 @@
 class Room {
-  constructor(roomId, playerMax) {
-    this.roomId = roomId;
+  constructor(roomId, playerMax = 4) {
+    this.roomID = roomId;
     this.playerMax = playerMax;
     this.players = {};
   }
