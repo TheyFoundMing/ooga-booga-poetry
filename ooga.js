@@ -32,20 +32,39 @@ io.on("connect", (socket) => {
     });
   });
 
-  socket.on("playerJoined", (name) => {
+  socket.on("newGame", (newRoomData) => {
+    // updates the current room with the new room
+    generateRoom(newRoomData.playerMax);
+
     // add player into the Room object
     // join player in room ID
     // ns emit to that room with player list along with room ID
-    currentRoom.addPlayer(socket.id, name);
+    currentRoom.addPlayer(socket.id, newRoomData.playerName);
     socket.join(currentRoom.roomID);
     io.to(currentRoom.roomID).emit("roomData", {
       players: currentRoom.getPlayers(),
       roomID: currentRoom.roomID,
     });
+  });
 
-    if (currentRoom.isRoomFull()) {
-      // create a new room, replace current room
-      generateRoom();
+  socket.on("joinGame", (roomData) => {
+    if (roomData.roomID in rooms) {
+      const room = rooms[roomData.roomID];
+      if (!room.isRoomFull()) {
+        console.log("Someone is joining...");
+        room.addPlayer(socket.id, roomData.playerName);
+        socket.join(room.roomID);
+        io.to(room.roomID).emit("roomData", {
+          players: room.getPlayers(),
+          roomID: room.roomID,
+        });
+      } else {
+        console.log("Room is full...");
+        socket.emit("roomFull");
+      }
+    } else {
+      console.log("This room doesn't exist");
+      // socket.emit()
     }
   });
 });
@@ -55,8 +74,8 @@ function generateRoomID() {
 }
 
 // creates a new room then replaces the currentRoom
-function generateRoom() {
-  let room = new Room(generateRoomID());
+function generateRoom(playerMax = 4) {
+  let room = new Room(generateRoomID(), playerMax);
   rooms[room.roomID] = room;
   currentRoom = room;
 }
