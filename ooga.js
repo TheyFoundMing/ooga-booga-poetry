@@ -16,25 +16,13 @@ console.log("Currently listening on port 3000!");
 
 const rooms = {}; // keeps track of rooms and number of players
 
-// the initial room
-let currentRoom = {};
-generateRoom();
-
 io.on("connect", (socket) => {
-  io.emit("playerList", currentRoom.getPlayers());
-
-  // makes sure that the player list gets disconnected
-  socket.on("disconnect", (reason) => {
-    currentRoom.deletePlayer(socket.id);
-    io.to(currentRoom.roomID).emit("roomData", {
-      players: currentRoom.getPlayers(),
-      roomID: currentRoom.roomID,
-    });
-  });
+  // the initial room
+  let currentRoom = {};
 
   socket.on("newGame", (newRoomData) => {
     // updates the current room with the new room
-    generateRoom(newRoomData.playerMax);
+    currentRoom = generateRoom(newRoomData.playerMax);
 
     // add player into the Room object
     // join player in room ID
@@ -49,23 +37,31 @@ io.on("connect", (socket) => {
 
   socket.on("joinGame", (roomData) => {
     if (roomData.roomID in rooms) {
-      const room = rooms[roomData.roomID];
-      if (!room.isRoomFull()) {
-        console.log("Someone is joining...");
-        room.addPlayer(socket.id, roomData.playerName);
-        socket.join(room.roomID);
-        io.to(room.roomID).emit("roomData", {
-          players: room.getPlayers(),
-          roomID: room.roomID,
+      currentRoom = rooms[roomData.roomID];
+      if (!currentRoom.isRoomFull()) {
+        currentRoom.addPlayer(socket.id, roomData.playerName);
+        socket.join(currentRoom.roomID);
+        io.to(currentRoom.roomID).emit("roomData", {
+          players: currentRoom.getPlayers(),
+          roomID: currentRoom.roomID,
         });
       } else {
-        console.log("Room is full...");
         socket.emit("roomFull");
       }
     } else {
       console.log("This room doesn't exist");
-      // socket.emit()
+      socket.emit("roomNone");
     }
+  });
+
+  // the current room is updated by either newRoom or joinRoom
+  // makes sure that the player list gets disconnected
+  socket.on("disconnect", (reason) => {
+    currentRoom.deletePlayer(socket.id);
+    io.to(currentRoom.roomID).emit("roomData", {
+      players: currentRoom.getPlayers(),
+      roomID: currentRoom.roomID,
+    });
   });
 });
 
@@ -77,5 +73,5 @@ function generateRoomID() {
 function generateRoom(playerMax = 4) {
   let room = new Room(generateRoomID(), playerMax);
   rooms[room.roomID] = room;
-  currentRoom = room;
+  return room;
 }

@@ -4,6 +4,7 @@ const playersDiv = document.querySelector("#players");
 const roomNameDiv = document.querySelector("#room-name");
 const newRoomDiv = document.querySelector("#new-room");
 const joinRoomDiv = document.querySelector("#join-room");
+const startGameDiv = document.querySelector("#start-game");
 
 let playerName = "";
 
@@ -11,8 +12,6 @@ socket.on("connect", () => {
   console.log("Successfully connected to the server");
   //   playerName = window.prompt("Please enter your name", "Neanderthal");
   playerName = "Neanderthal";
-  //   socket.emit("playerJoined", playerName);
-  //   console.log(socket.id);
 });
 
 socket.on("roomData", (data) => {
@@ -28,10 +27,14 @@ socket.on("roomData", (data) => {
 
 newRoomDiv.addEventListener("click", (e) => {
   const playerCount = window.prompt("How many players are playing?", 4);
-  socket.emit("newGame", {
-    playerMax: parseInt(playerCount),
-    playerName: playerName,
-  });
+  // in case user clicks cancel on prompt
+  if (playerCount) {
+    socket.emit("newGame", {
+      playerMax: parseInt(playerCount),
+      playerName: playerName,
+    });
+    hideStartJoinGame();
+  }
 });
 
 joinRoomDiv.addEventListener("click", (e) => {
@@ -45,3 +48,13 @@ joinRoomDiv.addEventListener("click", (e) => {
 socket.on("roomFull", () => {
   alert("The room you are trying to join is currently full!");
 });
+
+socket.on("roomNone", () => {
+  alert("The room you are trying to join doesn't exist!");
+});
+
+function hideStartJoinGame() {
+  newRoomDiv.style.display = "none";
+  joinRoomDiv.style.display = "none";
+  startGameDiv.style.display = "block";
+}
