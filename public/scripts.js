@@ -1,7 +1,12 @@
 const socket = io("http://localhost:3000");
 
-const playersDiv = document.querySelector("#players");
 const roomNameDiv = document.querySelector("#room-name");
+
+const teamGladDiv = document.querySelector("#team-glad-div");
+const teamMadDiv = document.querySelector("#team-mad-div");
+const teamGlad = document.querySelector("#team-glad");
+const teamMad = document.querySelector("#team-mad");
+
 const newRoomDiv = document.querySelector("#new-room");
 const joinRoomDiv = document.querySelector("#join-room");
 const startGameDiv = document.querySelector("#start-game");
@@ -15,12 +20,19 @@ socket.on("connect", () => {
 });
 
 socket.on("roomData", (data) => {
-  playersDiv.innerHTML = "";
-  console.log(data);
   roomNameDiv.innerHTML = `Room ${data.roomID}`;
-  if (data.players.length > 0) {
-    data.players.forEach((player) => {
-      playersDiv.innerHTML += `<li>${player}</li>`;
+  teamMad.innerHTML = "";
+  teamGlad.innerHTML = "";
+
+  if (data.madPlayers.length > 0) {
+    data.madPlayers.forEach((player) => {
+      teamMad.innerHTML += `<li>${player}</li>`;
+    });
+  }
+
+  if (data.gladPlayers.length > 0) {
+    data.gladPlayers.forEach((player) => {
+      teamGlad.innerHTML += `<li>${player}</li>`;
     });
   }
 });
@@ -39,10 +51,14 @@ newRoomDiv.addEventListener("click", (e) => {
 
 joinRoomDiv.addEventListener("click", (e) => {
   const roomID = window.prompt("Enter room ID:");
-  socket.emit("joinGame", {
-    playerName: playerName,
-    roomID: roomID,
-  });
+  socket.emit(
+    "joinGame",
+    {
+      playerName: playerName,
+      roomID: roomID,
+    },
+    hideStartJoinGame
+  );
 });
 
 socket.on("roomFull", () => {
@@ -57,4 +73,14 @@ function hideStartJoinGame() {
   newRoomDiv.style.display = "none";
   joinRoomDiv.style.display = "none";
   startGameDiv.style.display = "block";
+  teamGladDiv.style.display = "block";
+  teamMadDiv.style.display = "block";
 }
+
+teamGladDiv.addEventListener("click", (e) => {
+  socket.emit("joinGlad", playerName);
+});
+
+teamMadDiv.addEventListener("click", (e) => {
+  socket.emit("joinMad", playerName);
+});

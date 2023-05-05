@@ -1,4 +1,4 @@
-class Game {
+class Round {
   constructor() {
     this.teamGlad = {};
     this.teamMad = {};
@@ -7,19 +7,35 @@ class Game {
   }
 
   addToGlad(playerID, playerName) {
+    if (playerID in this.teamMad) {
+      this.popFromMad(playerID);
+    }
     this.teamGlad[playerID] = playerName;
   }
 
   addToMad(playerID, playerName) {
+    if (playerID in this.teamGlad) {
+      this.popFromGlad(playerID);
+    }
     this.teamMad[playerID] = playerName;
   }
 
-  popFromGlad(playerID, playerName) {
+  popFromGlad(playerID) {
+    console.log("before pop", this.teamGlad);
     delete this.teamGlad[playerID];
+    console.log("after pop", this.teamGlad);
   }
 
-  popFromMad(playerID, playerName) {
+  popFromMad(playerID) {
     delete this.teamMad[playerID];
+  }
+
+  disconnectPlayer(playerID) {
+    if (playerID in this.teamGlad) {
+      this.popFromGlad(playerID);
+    } else {
+      this.popFromMad(playerID);
+    }
   }
 
   getGladPlayers() {
@@ -27,7 +43,7 @@ class Game {
   }
 
   getMadPlayers() {
-    return Object.values(this.teamGlad);
+    return Object.values(this.teamMad);
   }
 
   getPlayerCount() {
@@ -36,3 +52,5 @@ class Game {
     );
   }
 }
+
+module.exports = Round;
