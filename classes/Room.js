@@ -17,6 +17,14 @@ class Room {
   changeRound(round) {
     this.round = round;
   }
+
+  increasePlayerCount() {
+    this.playerCount += 1;
+  }
+
+  decreasePlayerCount() {
+    this.playerCount -= 1;
+  }
 }
 
 module.exports = Room;

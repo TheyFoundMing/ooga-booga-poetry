@@ -10,6 +10,8 @@ app.use(express.static(__dirname + "/public"));
 const expressServer = app.listen(3000);
 const io = socketio(expressServer);
 
+const joinTeamEvents = require("./sockets/joinTeamEvents.js");
+
 console.log("Currently listening on port 3000!");
 
 // on connection, it shall wait on any events from the client
@@ -17,8 +19,6 @@ console.log("Currently listening on port 3000!");
 
 const rooms = {}; // keeps track of rooms and number of players
 
-// newRoom and joinRoom goes first before any of the other events because
-// we're adding the event listeners every time a new socket connects
 io.on("connect", (socket) => {
   // the initial room
   let currentRoom = {};
@@ -30,7 +30,7 @@ io.on("connect", (socket) => {
     // updates the current room with the new room
     currentRoom = generateRoom(newRoomData.playerMax);
     currentRoom.changeRound(new Round());
-    currentRoom.playerCount += 1;
+    currentRoom.increasePlayerCount();
 
     socket.join(currentRoom.roomID);
     io.to(currentRoom.roomID).emit("roomData", {
@@ -39,39 +39,7 @@ io.on("connect", (socket) => {
       roomID: currentRoom.roomID,
     });
 
-    socket.on("joinGlad", (playerName) => {
-      currentRoom.round.addToGlad(socket.id, playerName);
-      console.log("added to Glad");
-      io.to(currentRoom.roomID).emit("roomData", {
-        gladPlayers: currentRoom.round.getGladPlayers(),
-        madPlayers: currentRoom.round.getMadPlayers(),
-        roomID: currentRoom.roomID,
-      });
-    });
-
-    socket.on("joinMad", (playerName) => {
-      currentRoom.round.addToMad(socket.id, playerName);
-      console.log("added to Mad");
-      io.to(currentRoom.roomID).emit("roomData", {
-        gladPlayers: currentRoom.round.getGladPlayers(),
-        madPlayers: currentRoom.round.getMadPlayers(),
-        roomID: currentRoom.roomID,
-      });
-    });
-
-    socket.on("disconnect", (reason) => {
-      try {
-        currentRoom.playerCount -= 1;
-        currentRoom.round.disconnectPlayer(socket.id);
-        io.to(currentRoom.roomID).emit("roomData", {
-          gladPlayers: currentRoom.round.getGladPlayers(),
-          madPlayers: currentRoom.round.getMadPlayers(),
-          roomID: currentRoom.roomID,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    });
+    joinTeamEvents(io, socket, currentRoom);
   });
 
   //   callback is dom stuff for script to get rid of the start/join buttons
@@ -79,7 +47,7 @@ io.on("connect", (socket) => {
     if (roomData.roomID in rooms) {
       currentRoom = rooms[roomData.roomID];
       if (!currentRoom.isRoomFull()) {
-        currentRoom.playerCount += 1;
+        currentRoom.increasePlayerCount();
         socket.join(currentRoom.roomID);
         io.to(currentRoom.roomID).emit("roomData", {
           gladPlayers: currentRoom.round.getGladPlayers(),
@@ -95,39 +63,7 @@ io.on("connect", (socket) => {
       socket.emit("roomNone");
     }
 
-    socket.on("joinGlad", (playerName) => {
-      currentRoom.round.addToGlad(socket.id, playerName);
-      console.log("added to Glad");
-      io.to(currentRoom.roomID).emit("roomData", {
-        gladPlayers: currentRoom.round.getGladPlayers(),
-        madPlayers: currentRoom.round.getMadPlayers(),
-        roomID: currentRoom.roomID,
-      });
-    });
-
-    socket.on("joinMad", (playerName) => {
-      currentRoom.round.addToMad(socket.id, playerName);
-      console.log("added to Mad");
-      io.to(currentRoom.roomID).emit("roomData", {
-        gladPlayers: currentRoom.round.getGladPlayers(),
-        madPlayers: currentRoom.round.getMadPlayers(),
-        roomID: currentRoom.roomID,
-      });
-    });
-
-    socket.on("disconnect", (reason) => {
-      try {
-        currentRoom.playerCount -= 1;
-        currentRoom.round.disconnectPlayer(socket.id);
-        io.to(currentRoom.roomID).emit("roomData", {
-          gladPlayers: currentRoom.round.getGladPlayers(),
-          madPlayers: currentRoom.round.getMadPlayers(),
-          roomID: currentRoom.roomID,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    });
+    joinTeamEvents(io, socket, currentRoom);
   });
 });
 
