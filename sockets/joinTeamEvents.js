@@ -5,8 +5,8 @@ function joinTeamEvents(io, socket, currentRoom) {
     currentRoom.round.addToGlad(socket.id, playerName);
     console.log("added to Glad");
     io.to(currentRoom.roomID).emit("roomData", {
-      gladPlayers: currentRoom.round.getGladPlayers(),
-      madPlayers: currentRoom.round.getMadPlayers(),
+      gladPlayers: currentRoom.getGladPlayers(),
+      madPlayers: currentRoom.getMadPlayers(),
       roomID: currentRoom.roomID,
     });
   });
@@ -15,8 +15,8 @@ function joinTeamEvents(io, socket, currentRoom) {
     currentRoom.round.addToMad(socket.id, playerName);
     console.log("added to Mad");
     io.to(currentRoom.roomID).emit("roomData", {
-      gladPlayers: currentRoom.round.getGladPlayers(),
-      madPlayers: currentRoom.round.getMadPlayers(),
+      gladPlayers: currentRoom.getGladPlayers(),
+      madPlayers: currentRoom.getMadPlayers(),
       roomID: currentRoom.roomID,
     });
   });
@@ -26,8 +26,8 @@ function joinTeamEvents(io, socket, currentRoom) {
       currentRoom.decreasePlayerCount();
       currentRoom.round.disconnectPlayer(socket.id);
       io.to(currentRoom.roomID).emit("roomData", {
-        gladPlayers: currentRoom.round.getGladPlayers(),
-        madPlayers: currentRoom.round.getMadPlayers(),
+        gladPlayers: currentRoom.getGladPlayers(),
+        madPlayers: currentRoom.getMadPlayers(),
         roomID: currentRoom.roomID,
       });
     } catch (err) {

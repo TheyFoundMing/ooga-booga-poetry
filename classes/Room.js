@@ -4,6 +4,7 @@ class Room {
     this.playerMax = playerMax;
     this.playerCount = 0;
     this.round = {};
+    this.host = "";
   }
 
   isRoomFull() {
@@ -12,6 +13,14 @@ class Room {
     } else {
       return false;
     }
+  }
+
+  //   returns only the names of players
+  getGladPlayers() {
+    return Object.values(this.round.getGladPlayers());
+  }
+  getMadPlayers() {
+    return Object.values(this.round.getMadPlayers());
   }
 
   changeRound(round) {
@@ -24,6 +33,10 @@ class Room {
 
   decreasePlayerCount() {
     this.playerCount -= 1;
+  }
+
+  assignHost(socketID) {
+    this.host = socketID;
   }
 }
 

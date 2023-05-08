@@ -11,6 +11,7 @@ const expressServer = app.listen(3000);
 const io = socketio(expressServer);
 
 const joinTeamEvents = require("./sockets/joinTeamEvents.js");
+const assignRolesTurns = require("./sockets/assignRolesTurn.js");
 
 console.log("Currently listening on port 3000!");
 
@@ -31,15 +32,17 @@ io.on("connect", (socket) => {
     currentRoom = generateRoom(newRoomData.playerMax);
     currentRoom.changeRound(new Round());
     currentRoom.increasePlayerCount();
+    currentRoom.assignHost(socket.id);
 
     socket.join(currentRoom.roomID);
     io.to(currentRoom.roomID).emit("roomData", {
-      gladPlayers: currentRoom.round.getGladPlayers(),
-      madPlayers: currentRoom.round.getMadPlayers(),
+      gladPlayers: currentRoom.getGladPlayers(),
+      madPlayers: currentRoom.getMadPlayers(),
       roomID: currentRoom.roomID,
     });
 
     joinTeamEvents(io, socket, currentRoom);
+    assignRolesTurns(io, socket, currentRoom);
   });
 
   //   callback is dom stuff for script to get rid of the start/join buttons
@@ -50,8 +53,8 @@ io.on("connect", (socket) => {
         currentRoom.increasePlayerCount();
         socket.join(currentRoom.roomID);
         io.to(currentRoom.roomID).emit("roomData", {
-          gladPlayers: currentRoom.round.getGladPlayers(),
-          madPlayers: currentRoom.round.getMadPlayers(),
+          gladPlayers: currentRoom.getGladPlayers(),
+          madPlayers: currentRoom.getMadPlayers(),
           roomID: currentRoom.roomID,
         });
         callback();
@@ -64,6 +67,7 @@ io.on("connect", (socket) => {
     }
 
     joinTeamEvents(io, socket, currentRoom);
+    assignRolesTurns(io, socket, currentRoom);
   });
 });
 

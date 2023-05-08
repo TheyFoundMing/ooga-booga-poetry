@@ -84,3 +84,7 @@ teamGladDiv.addEventListener("click", (e) => {
 teamMadDiv.addEventListener("click", (e) => {
   socket.emit("joinMad", playerName);
 });
+
+startGameDiv.addEventListener("click", (e) => {
+  socket.emit("startGame");
+});

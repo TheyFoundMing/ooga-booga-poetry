@@ -4,6 +4,7 @@ class Round {
     this.teamMad = {};
     this.gladPoints = 0;
     this.madPoints = 0;
+    this.turns = [];
   }
 
   addToGlad(playerID, playerName) {
@@ -38,18 +39,41 @@ class Round {
     }
   }
 
+  // returns the dictionary with both the socketID and names
   getGladPlayers() {
-    return Object.values(this.teamGlad);
+    return this.teamGlad;
   }
 
   getMadPlayers() {
-    return Object.values(this.teamMad);
+    return this.teamMad;
   }
 
   getPlayerCount() {
     return (
       Object.values(this.teamGlad).length + Object.values(this.teamGlad).length
     );
+  }
+
+  formTurns() {
+    const gladPlayers = Object.keys(this.teamGlad);
+    const madPlayers = Object.keys(this.teamMad);
+
+    while (gladPlayers & madPlayers) {
+      this.turns.push((gladPlayers.shift(), "glad"));
+      this.turns.push((madPlayers.shift(), "mad"));
+    }
+
+    if (gladPlayers) {
+      this.turns.concat(gladPlayers);
+    }
+  }
+
+  pickPoet() {
+    return this.turns.shift();
+  }
+
+  hasGameEnded() {
+    return this.turns.length > 0;
   }
 }
 
