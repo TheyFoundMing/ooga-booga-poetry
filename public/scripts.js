@@ -11,6 +11,10 @@ const newRoomDiv = document.querySelector("#new-room");
 const joinRoomDiv = document.querySelector("#join-room");
 const startGameDiv = document.querySelector("#start-game");
 
+const hostDiv = document.querySelector("#host");
+const poetDiv = document.querySelector("#poetWho");
+const roleDiv = document.querySelector("#role");
+
 let playerName = "";
 
 socket.on("connect", () => {
@@ -87,4 +91,19 @@ teamMadDiv.addEventListener("click", (e) => {
 
 startGameDiv.addEventListener("click", (e) => {
   socket.emit("startGame");
+});
+
+socket.on("host", () => {
+  hostDiv.style.display = "block";
+});
+
+socket.on("neanderthalPoet", (poetName) => {
+  poetDiv.innerHTML = `${poetName} is the poet!`;
+});
+
+socket.on("manWithStick", () => {
+  roleDiv.innerHTML = "Your team is the men with stick!";
+});
+socket.on("humanGuesser", () => {
+  roleDiv.innerHTML = "Guess what your Neanderthal teammate is saying!";
 });

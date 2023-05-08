@@ -32,7 +32,9 @@ io.on("connect", (socket) => {
     currentRoom = generateRoom(newRoomData.playerMax);
     currentRoom.changeRound(new Round());
     currentRoom.increasePlayerCount();
+
     currentRoom.assignHost(socket.id);
+    socket.emit("host");
 
     socket.join(currentRoom.roomID);
     io.to(currentRoom.roomID).emit("roomData", {

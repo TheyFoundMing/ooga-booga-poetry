@@ -4,6 +4,8 @@
 </head>
 <div>
   <h3 id="room-name">Room</h3>
+  <h4 id="host" style="display: none">You are the host!</h4>
+
   <div>
     <button type="button" id="new-room">New Room</button>
     <button type="button" id="join-room">Join Room</button>
@@ -22,6 +24,9 @@
   <button type="button" id="start-game" style="display: none">
     Start game
   </button>
+
+  <h3 id="poetWho"></h3>
+  <h3 id="role"></h3>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
