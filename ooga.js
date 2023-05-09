@@ -5,6 +5,13 @@ const crypto = require("crypto");
 const Room = require("./classes/Room.js");
 const Round = require("./classes/Round.js");
 
+const {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} = require("unique-names-generator");
+
 app.use(express.static(__dirname + "/public"));
 
 const expressServer = app.listen(3000);
@@ -21,6 +28,11 @@ console.log("Currently listening on port 3000!");
 const rooms = {}; // keeps track of rooms and number of players
 
 io.on("connect", (socket) => {
+  let playerName = uniqueNamesGenerator({
+    dictionaries: [adjectives, colors, animals],
+  }); // big_red_donkey
+  socket.emit("playerDefaultName", playerName);
+
   // the initial room
   let currentRoom = {};
 

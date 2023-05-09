@@ -2,32 +2,40 @@
   <title>Ooga Booga</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<div>
+<body>
   <h3 id="room-name">Room</h3>
   <h4 id="host" style="display: none">You are the host!</h4>
+  <h4 id="player-name"></h4>
 
-  <div>
-    <button type="button" id="new-room">New Room</button>
-    <button type="button" id="join-room">Join Room</button>
-  </div>
-  <div>
-    Players currently in the game:
-    <div id="team-glad-div" class="team" style="display: none">
-      <h2>Team Glad</h2>
-      <ul id="team-glad"></ul>
+  <div id="game">
+    <div>
+      <button type="button" id="new-room">New Room</button>
+      <button type="button" id="join-room">Join Room</button>
     </div>
-    <div id="team-mad-div" class="team" style="display: none">
-      <h2>Team Mad</h2>
-      <ul id="team-mad"></ul>
+    <div>
+      Players currently in the game:
+      <div id="team-glad-div" class="team" style="display: none">
+        <h2>Team Glad</h2>
+        <ul id="team-glad"></ul>
+      </div>
+      <div id="team-mad-div" class="team" style="display: none">
+        <h2>Team Mad</h2>
+        <ul id="team-mad"></ul>
+      </div>
     </div>
-  </div>
-  <button type="button" id="start-game" style="display: none">
-    Start game
-  </button>
+    <button type="button" id="start-game" style="display: none">
+      Start game
+    </button>
+    <button type="button" id="next" style="display: none">Next</button>
 
-  <h3 id="poetWho"></h3>
-  <h3 id="role"></h3>
-</div>
+    <h3 id="poetWho"></h3>
+    <h3 id="role"></h3>
+  </div>
+
+  <h1 id="game-end" style="display: none">Game has ended!!!</h1>
+</body>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/scripts.js"></script>
+<script src="/eventListeners.js"></script>
+<script src="/sockets.js"></script>

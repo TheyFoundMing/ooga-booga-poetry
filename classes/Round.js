@@ -5,6 +5,7 @@ class Round {
     this.gladPoints = 0;
     this.madPoints = 0;
     this.turns = [];
+    this.currentPoet = "";
   }
 
   addToGlad(playerID, playerName) {
@@ -58,16 +59,20 @@ class Round {
     const gladPlayers = Object.keys(this.teamGlad);
     const madPlayers = Object.keys(this.teamMad);
 
-    console.log("forming turns");
-
     while (gladPlayers.length > 0 && madPlayers.length > 0) {
       this.turns.push([gladPlayers.shift(), "glad"]);
       this.turns.push([madPlayers.shift(), "mad"]);
     }
 
-    if (gladPlayers) {
-      this.turns.concat(gladPlayers);
+    console.log(gladPlayers);
+
+    if (gladPlayers.length > 0) {
+      gladPlayers.forEach((player) => {
+        this.turns.push([player, "glad"]);
+      });
     }
+
+    console.log("turns sequence", this.turns);
   }
 
   pickPoet() {
@@ -78,6 +83,9 @@ class Round {
     } else {
       poetName = this.teamMad[poet[0]];
     }
+
+    this.currentPoet = poet[0];
+
     return {
       poetName: poetName,
       poetID: poet[0],
@@ -86,7 +94,7 @@ class Round {
   }
 
   hasGameEnded() {
-    return this.turns.length > 0;
+    return this.turns.length == 0;
   }
 }
 
