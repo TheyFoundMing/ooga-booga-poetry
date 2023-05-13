@@ -6,7 +6,7 @@ socket.on("connect", () => {
 
 socket.on("playerDefaultName", (name) => {
   playerName = name;
-  playerNameDiv.innerHTML = name;
+  playerNameInput.value = name;
 });
 
 socket.on("roomData", (data) => {

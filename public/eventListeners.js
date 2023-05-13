@@ -1,25 +1,51 @@
 newRoomDiv.addEventListener("click", (e) => {
   const playerCount = window.prompt("How many players are playing?", 4);
-  // in case user clicks cancel on prompt
+  // needs the player name to not be empty
   if (playerCount) {
-    socket.emit("newGame", {
-      playerMax: parseInt(playerCount),
-      playerName: playerName,
-    });
-    hideStartJoinGame();
+    if (playerNameInput.value != "") {
+      playerName = playerNameInput.value;
+      playerNameDiv.style.display = "block";
+      playerNameDiv.innerHTML = playerName;
+
+      socket.emit("newGame", {
+        playerMax: parseInt(playerCount),
+        playerName: playerName,
+      });
+      hideStartJoinGame();
+    } else {
+      alert("Give yourself a name!");
+    }
   }
 });
 
 joinRoomDiv.addEventListener("click", (e) => {
-  const roomID = window.prompt("Enter room ID:");
-  socket.emit(
-    "joinGame",
-    {
-      playerName: playerName,
-      roomID: roomID,
-    },
-    hideStartJoinGame
-  );
+  //   const roomID = window.prompt("Enter room ID:");
+  if (playerNameInput.value != "") {
+    playerName = playerNameInput.value;
+    playerNameDiv.style.display = "block";
+    playerNameDiv.innerHTML = playerName;
+
+    if (roomIDInput.value != "") {
+      roomID = roomIDInput.value;
+
+      socket.emit(
+        "joinGame",
+        {
+          playerName: playerName,
+          roomID: roomID,
+        },
+        hideStartJoinGame
+      );
+    } else {
+      socket.emit("newGame", {
+        playerMax: 4,
+        playerName: playerName,
+      });
+      hideStartJoinGame();
+    }
+  } else {
+    alert("Give yourself a name!");
+  }
 });
 
 teamGladDiv.addEventListener("click", (e) => {

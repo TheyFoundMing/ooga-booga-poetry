@@ -1,35 +1,103 @@
 <head>
   <title>Ooga Booga</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
-  <h3 id="room-name">Room</h3>
-  <h4 id="host" style="display: none">You are the host!</h4>
-  <h4 id="player-name"></h4>
+  <h1>Ooga Booga Poetry</h1>
 
-  <div id="game">
-    <div>
-      <button type="button" id="new-room">New Room</button>
+  <h3 id="room-name">Room</h3>
+  <h4 id="player-name" style="display: none"></h4>
+  <h4 id="host" style="display: none">You are the host!</h4>
+
+  <div id="start-buttons">
+    <label for="player-name-input">
+      Player name:
+      <input id="player-name-input" type="text" required />
+    </label>
+    <label for="room-id-input">
+      Room ID:
+      <input
+        id="room-id-input"
+        type="text"
+        placeholder="(For joining rooms only)"
+      />
       <button type="button" id="join-room">Join Room</button>
+      <button type="button" id="new-room">New Room</button>
+    </label>
+  </div>
+
+  <div>
+    <h2>Hi there&#128075;</h2>
+    <div class="desc">
+      This is a Neanderthal poetry clone made for fun during my free time. This
+      clone has no affiliation whatsoever with the original Neanderthal Poetry
+      game nor Exploding Kittens. If you like the game, maybe buy the
+      <a
+        href="https://www.amazon.com/Poetry-Neanderthals-Exploding-Kittens-Adults/dp/B089DTQDLR?th=1"
+      >
+        actual board game as well</a
+      >!
     </div>
-    <div>
-      Players currently in the game:
-      <div id="team-glad-div" class="team" style="display: none">
-        <h2>Team Glad</h2>
+    <div class="desc">
+      To start the game, you can join a game from the game's room ID listed on
+      the top right corner of the screen - otherwise, you can also create a new
+      one! You can choose to use the suggested player name or create your own.
+    </div>
+    <div class="desc">
+      This is not meant to be played in silence but rather in-person (or a Zoom
+      call!) as there wouldn't be any other way to communicate with the other
+      players otherwise. Hopefully in the future I could implement a voice
+      channel feature which may help!
+    </div>
+    <div class="desc">
+      Instructions
+      <ul>
+        <li>Team members of the poet must guess</li>
+        <li>
+          The opposing team becomes the men with stick, whom needs to watch what
+          the poet is saying
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="game" style="display: none">
+    <div class="teams">
+      <div id="team-glad-div" class="team">
+        <h2>&#128578; Team Glad &#128578;</h2>
         <ul id="team-glad"></ul>
       </div>
-      <div id="team-mad-div" class="team" style="display: none">
-        <h2>Team Mad</h2>
+      <div id="team-mad-div" class="team">
+        <h2>&#128544; Team Mad &#128544;</h2>
         <ul id="team-mad"></ul>
       </div>
     </div>
-    <button type="button" id="start-game" style="display: none">
-      Start game
-    </button>
-    <button type="button" id="next" style="display: none">Next</button>
+    <button type="button" id="start-game">Start game</button>
+    <button type="button" id="next">Next</button>
 
     <h3 id="poetWho"></h3>
     <h3 id="role"></h3>
+
+    <div>
+      1pts
+      <hr />
+      3pts
+    </div>
+    <div id="men-with-sticks">
+      <button type="button">BONK!</button>
+      <button type="button">WAIT</button>
+    </div>
+    <div id="neanderthal-poet">
+      <button type="button">1 POINT</button>
+      <button type="button">3 POINTS</button>
+      <button type="button">WAIT</button>
+    </div>
   </div>
 
   <h1 id="game-end" style="display: none">Game has ended!!!</h1>
@@ -38,4 +106,4 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/scripts.js"></script>
 <script src="/eventListeners.js"></script>
-<script src="/sockets.js"></script>
+<script src="/onSockets.js"></script>

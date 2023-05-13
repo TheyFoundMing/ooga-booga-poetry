@@ -2,11 +2,15 @@ const socket = io("http://localhost:3000");
 
 const roomNameDiv = document.querySelector("#room-name");
 const playerNameDiv = document.querySelector("#player-name");
+const playerNameInput = document.querySelector("#player-name-input");
+const roomIDInput = document.querySelector("#room-id-input");
 
 const teamGladDiv = document.querySelector("#team-glad-div");
 const teamMadDiv = document.querySelector("#team-mad-div");
 const teamGlad = document.querySelector("#team-glad");
 const teamMad = document.querySelector("#team-mad");
+
+const startButtonsDiv = document.querySelector("#start-buttons");
 
 const newRoomDiv = document.querySelector("#new-room");
 const joinRoomDiv = document.querySelector("#join-room");
@@ -23,10 +27,6 @@ const gameEndDiv = document.querySelector("#game-end");
 let playerName = "";
 
 function hideStartJoinGame() {
-  newRoomDiv.style.display = "none";
-  joinRoomDiv.style.display = "none";
-  startGameDiv.style.display = "block";
-  nextDiv.style.display = "block";
-  teamGladDiv.style.display = "block";
-  teamMadDiv.style.display = "block";
+  startButtonsDiv.style.display = "none";
+  gameDiv.style.display = "block";
 }
