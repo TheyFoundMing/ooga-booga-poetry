@@ -10,6 +10,7 @@ socket.on("playerDefaultName", (name) => {
 });
 
 socket.on("roomData", (data) => {
+  roomNameDiv.style.display = "block";
   roomNameDiv.innerHTML = `Room ${data.roomID}`;
   teamMad.innerHTML = "";
   teamGlad.innerHTML = "";
@@ -39,19 +40,34 @@ socket.on("host", () => {
   hostDiv.style.display = "block";
 });
 
+socket.on("startGame", () => {
+  gameViewDiv.style.display = "flex";
+  startGameDiv.style.display = "none";
+  startNote.style.display = "none";
+});
+
 socket.on("neanderthalPoet", (poetName) => {
   poetDiv.innerHTML = `${poetName} is the poet!`;
 });
 
 socket.on("poetYou", (poetName) => {
   roleDiv.innerHTML = `You are the poet!`;
+  neanderthalPoetButtonsDiv.style.display = "flex";
+  menWithSticksButtonsDiv.style.display = "none";
+  cardDiv.style.display = "block";
 });
 
 socket.on("manWithStick", () => {
   roleDiv.innerHTML = "Your team is the men with stick!";
+  menWithSticksButtonsDiv.style.display = "flex";
+  neanderthalPoetButtonsDiv.style.display = "none";
+  cardDiv.style.display = "block";
 });
 socket.on("humanGuesser", () => {
   roleDiv.innerHTML = "Guess what your Neanderthal teammate is saying!";
+  neanderthalPoetButtonsDiv.style.display = "none";
+  menWithSticksButtonsDiv.style.display = "none";
+  cardDiv.style.display = "none";
 });
 
 socket.on("gameEnd", () => {

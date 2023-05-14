@@ -11,6 +11,7 @@ const teamGlad = document.querySelector("#team-glad");
 const teamMad = document.querySelector("#team-mad");
 
 const startButtonsDiv = document.querySelector("#start-buttons");
+const startNote = document.querySelector("#start-note");
 
 const newRoomDiv = document.querySelector("#new-room");
 const joinRoomDiv = document.querySelector("#join-room");
@@ -22,11 +23,19 @@ const poetDiv = document.querySelector("#poetWho");
 const roleDiv = document.querySelector("#role");
 
 const gameDiv = document.querySelector("#game");
+const gameViewDiv = document.querySelector("#game-view");
 const gameEndDiv = document.querySelector("#game-end");
+
+const landingDiv = document.querySelector("#landing-intro");
+const menWithSticksButtonsDiv = document.querySelector("#men-with-sticks");
+const neanderthalPoetButtonsDiv = document.querySelector("#neanderthal-poet");
+
+const cardDiv = document.querySelector("#card");
 
 let playerName = "";
 
 function hideStartJoinGame() {
   startButtonsDiv.style.display = "none";
-  gameDiv.style.display = "block";
+  gameDiv.style.display = "flex";
+  landingDiv.style.display = "none";
 }
