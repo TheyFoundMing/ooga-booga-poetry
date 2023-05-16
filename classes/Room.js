@@ -1,9 +1,12 @@
+const Timer = require("./Timer");
+
 class Room {
   constructor(roomId, playerMax = 4) {
     this.roomID = roomId;
     this.playerMax = playerMax;
     this.playerCount = 0;
     this.round = {};
+    this.timer = new Timer();
     this.host = "";
   }
 

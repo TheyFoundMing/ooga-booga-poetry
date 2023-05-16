@@ -109,6 +109,7 @@
         Start game
       </button>
       <span id="start-note">Pick a team before starting the game</span>
+      <div id="timer"></div>
     </div>
 
     <div
@@ -116,6 +117,9 @@
       class="prose flex-col min-w-[85%] justify-center text-center"
       style="display: none"
     >
+      <h3 id="paused" style="display: none">
+        The game has been paused by the poet!!!!
+      </h3>
       <h3 id="poetWho"></h3>
       <h3 id="role"></h3>
       <div class="flex flex-row m-auto">
@@ -132,9 +136,9 @@
           <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
             BONK!
           </button>
-          <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
+          <!-- <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
             WAIT
-          </button>
+          </button> -->
         </div>
         <div
           id="neanderthal-poet"
@@ -147,18 +151,31 @@
           <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
             3 POINTS
           </button>
-          <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
+          <button
+            id="wait"
+            type="button"
+            class="px-3 bg-zinc-200 rounded-sm my-2"
+          >
             WAIT
+          </button>
+          <button
+            id="resume"
+            type="button"
+            class="px-3 bg-zinc-200 rounded-sm my-2"
+            style="display: none"
+          >
+            RESUME
           </button>
         </div>
       </div>
 
       <button
         type="button"
-        id="next"
+        id="start-round"
         class="m-auto px-3 bg-zinc-200 rounded-sm my-10 w-56"
+        style="display: none"
       >
-        Next
+        Start Round
       </button>
     </div>
   </div>

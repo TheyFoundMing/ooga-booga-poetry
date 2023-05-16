@@ -55,6 +55,7 @@ socket.on("poetYou", (poetName) => {
   neanderthalPoetButtonsDiv.style.display = "flex";
   menWithSticksButtonsDiv.style.display = "none";
   cardDiv.style.display = "block";
+  startRoundButton.style.display = "block";
 });
 
 socket.on("manWithStick", () => {
@@ -62,15 +63,29 @@ socket.on("manWithStick", () => {
   menWithSticksButtonsDiv.style.display = "flex";
   neanderthalPoetButtonsDiv.style.display = "none";
   cardDiv.style.display = "block";
+  startRoundButton.style.display = "none";
 });
 socket.on("humanGuesser", () => {
   roleDiv.innerHTML = "Guess what your Neanderthal teammate is saying!";
   neanderthalPoetButtonsDiv.style.display = "none";
   menWithSticksButtonsDiv.style.display = "none";
   cardDiv.style.display = "none";
+  startRoundButton.style.display = "none";
 });
 
 socket.on("gameEnd", () => {
   gameDiv.style.display = "none";
   gameEndDiv.style.display = "block";
+});
+
+socket.on("timer", (seconds) => {
+  timerDiv.innerHTML = seconds;
+});
+
+socket.on("waitRound", () => {
+  pauseDiv.style.display = "block";
+});
+
+socket.on("resumeRound", () => {
+  pauseDiv.style.display = "none";
 });

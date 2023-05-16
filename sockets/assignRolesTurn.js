@@ -18,34 +18,52 @@ function assignRolesTurns(io, socket, currentRoom) {
       }
     }
   });
+
+  socket.on("startRound", () => {
+    currentRoom.timer.startTimer(io, currentRoom, nextPoetTurn);
+  });
+
+  socket.on("waitRound", () => {
+    currentRoom.timer.pauseTimer();
+    io.to(currentRoom.roomID).emit("waitRound");
+  });
+
+  socket.on("resumeRound", () => {
+    io.to(currentRoom.roomID).emit("resumeRound");
+    currentRoom.timer.resumeTimer(io, currentRoom, nextPoetTurn);
+  });
 }
 
 // supporting function
 function nextPoetTurn(io, currentRoom) {
-  const { poetName, poetID, poetTeam } = currentRoom.round.pickPoet();
-  io.to(currentRoom.roomID).emit("neanderthalPoet", poetName);
-
-  if (poetTeam == "glad") {
-    Object.keys(currentRoom.round.getGladPlayers()).forEach((player) => {
-      if (player != poetID) {
-        io.to(player).emit("humanGuesser");
-      }
-    });
-    Object.keys(currentRoom.round.getMadPlayers()).forEach((player) => {
-      io.to(player).emit("manWithStick");
-    });
+  if (currentRoom.round.hasGameEnded()) {
+    io.to(currentRoom.roomID).emit("gameEnd");
   } else {
-    Object.keys(currentRoom.round.getGladPlayers()).forEach((player) => {
-      if (player != poetID) {
-        io.to(player).emit("humanGuesser");
-      }
-    });
-    Object.keys(currentRoom.round.getMadPlayers()).forEach((player) => {
-      io.to(player).emit("manWithStick");
-    });
-  }
+    const { poetName, poetID, poetTeam } = currentRoom.round.pickPoet();
+    io.to(currentRoom.roomID).emit("neanderthalPoet", poetName);
 
-  io.to(poetID).emit("poetYou");
+    if (poetTeam == "glad") {
+      Object.keys(currentRoom.round.getGladPlayers()).forEach((player) => {
+        if (player != poetID) {
+          io.to(player).emit("humanGuesser");
+        }
+      });
+      Object.keys(currentRoom.round.getMadPlayers()).forEach((player) => {
+        io.to(player).emit("manWithStick");
+      });
+    } else {
+      Object.keys(currentRoom.round.getMadPlayers()).forEach((player) => {
+        if (player != poetID) {
+          io.to(player).emit("humanGuesser");
+        }
+      });
+      Object.keys(currentRoom.round.getGladPlayers()).forEach((player) => {
+        io.to(player).emit("manWithStick");
+      });
+    }
+
+    io.to(poetID).emit("poetYou");
+  }
 }
 
 module.exports = assignRolesTurns;

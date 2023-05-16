@@ -60,6 +60,19 @@ startGameDiv.addEventListener("click", (e) => {
   socket.emit("startGame");
 });
 
-nextDiv.addEventListener("click", (e) => {
-  socket.emit("nextTurn");
+startRoundButton.addEventListener("click", (e) => {
+  socket.emit("startRound");
+  startRoundButton.style.display = "none";
+});
+
+waitButton.addEventListener("click", (e) => {
+  socket.emit("waitRound");
+  resumeButton.style.display = "inline-block";
+  waitButton.style.display = "none";
+});
+
+resumeButton.addEventListener("click", (e) => {
+  socket.emit("resumeRound");
+  waitButton.style.display = "inline-block";
+  resumeButton.style.display = "none";
 });

@@ -16,7 +16,7 @@ const startNote = document.querySelector("#start-note");
 const newRoomDiv = document.querySelector("#new-room");
 const joinRoomDiv = document.querySelector("#join-room");
 const startGameDiv = document.querySelector("#start-game");
-const nextDiv = document.querySelector("#next");
+const startRoundButton = document.querySelector("#start-round");
 
 const hostDiv = document.querySelector("#host");
 const poetDiv = document.querySelector("#poetWho");
@@ -31,6 +31,11 @@ const menWithSticksButtonsDiv = document.querySelector("#men-with-sticks");
 const neanderthalPoetButtonsDiv = document.querySelector("#neanderthal-poet");
 
 const cardDiv = document.querySelector("#card");
+const timerDiv = document.querySelector("#timer");
+
+const waitButton = document.querySelector("#wait");
+const resumeButton = document.querySelector("#resume");
+const pauseDiv = document.querySelector("#paused");
 
 let playerName = "";
 
