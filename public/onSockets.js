@@ -89,3 +89,8 @@ socket.on("waitRound", () => {
 socket.on("resumeRound", () => {
   pauseDiv.style.display = "none";
 });
+
+socket.on("scoreboard", (scoreboard) => {
+  gladScoreDiv.innerHTML = `${scoreboard.glad} pts`;
+  madScoreDiv.innerHTML = `${scoreboard.mad} pts`;
+});

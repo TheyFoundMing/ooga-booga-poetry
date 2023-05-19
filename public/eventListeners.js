@@ -76,3 +76,11 @@ resumeButton.addEventListener("click", (e) => {
   waitButton.style.display = "inline-block";
   resumeButton.style.display = "none";
 });
+
+onePointDiv.addEventListener("click", (e) => {
+  socket.emit("1point");
+});
+
+threePointsDiv.addEventListener("click", (e) => {
+  socket.emit("3points");
+});

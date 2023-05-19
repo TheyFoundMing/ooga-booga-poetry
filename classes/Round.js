@@ -2,10 +2,9 @@ class Round {
   constructor() {
     this.teamGlad = {};
     this.teamMad = {};
-    this.gladPoints = 0;
-    this.madPoints = 0;
     this.turns = [];
     this.currentPoet = "";
+    this.currentPoetTeam = "";
   }
 
   addToGlad(playerID, playerName) {
@@ -85,6 +84,7 @@ class Round {
     }
 
     this.currentPoet = poet[0];
+    this.currentPoetTeam = poet[1];
 
     return {
       poetName: poetName,

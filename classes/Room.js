@@ -1,12 +1,16 @@
+const Round = require("./Round.js");
 const Timer = require("./Timer");
+const Scoreboard = require("./Scoreboard.js");
 
+// Room essentially holds all the important information to carry over to other functions
 class Room {
   constructor(roomId, playerMax = 4) {
     this.roomID = roomId;
     this.playerMax = playerMax;
     this.playerCount = 0;
-    this.round = {};
+    this.round = new Round();
     this.timer = new Timer();
+    this.scoreboard = new Scoreboard();
     this.host = "";
   }
 
@@ -22,6 +26,7 @@ class Room {
   getGladPlayers() {
     return Object.values(this.round.getGladPlayers());
   }
+  //   returns only the names of players
   getMadPlayers() {
     return Object.values(this.round.getMadPlayers());
   }

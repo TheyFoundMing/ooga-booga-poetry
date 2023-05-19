@@ -37,6 +37,12 @@ const waitButton = document.querySelector("#wait");
 const resumeButton = document.querySelector("#resume");
 const pauseDiv = document.querySelector("#paused");
 
+const onePointDiv = document.querySelector("#one-pt");
+const threePointsDiv = document.querySelector("#three-pts");
+
+const gladScoreDiv = document.querySelector("#glad-score");
+const madScoreDiv = document.querySelector("#mad-score");
+
 let playerName = "";
 
 function hideStartJoinGame() {

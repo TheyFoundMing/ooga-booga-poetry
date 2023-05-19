@@ -3,7 +3,6 @@ const app = express();
 const socketio = require("socket.io");
 const crypto = require("crypto");
 const Room = require("./classes/Room.js");
-const Round = require("./classes/Round.js");
 
 const {
   uniqueNamesGenerator,
@@ -19,6 +18,7 @@ const io = socketio(expressServer);
 
 const joinTeamEvents = require("./sockets/joinTeamEvents.js");
 const assignRolesTurns = require("./sockets/assignRolesTurn.js");
+const poetFunctions = require("./sockets/poetFunctions.js");
 
 console.log("Currently listening on port 3000!");
 
@@ -42,7 +42,6 @@ io.on("connect", (socket) => {
   socket.on("newGame", (newRoomData) => {
     // updates the current room with the new room
     currentRoom = generateRoom(newRoomData.playerMax);
-    currentRoom.changeRound(new Round());
     currentRoom.increasePlayerCount();
 
     currentRoom.assignHost(socket.id);
@@ -57,6 +56,7 @@ io.on("connect", (socket) => {
 
     joinTeamEvents(io, socket, currentRoom);
     assignRolesTurns(io, socket, currentRoom);
+    poetFunctions(io, socket, currentRoom);
   });
 
   //   callback is dom stuff for script to get rid of the start/join buttons
@@ -82,6 +82,7 @@ io.on("connect", (socket) => {
 
     joinTeamEvents(io, socket, currentRoom);
     assignRolesTurns(io, socket, currentRoom);
+    poetFunctions(io, socket, currentRoom);
   });
 });
 

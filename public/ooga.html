@@ -93,13 +93,15 @@
       >
         <h3 class="m-0">&#128578; Team Glad &#128578;</h3>
         <ul id="team-glad"></ul>
+        <div id="glad-score"></div>
       </div>
       <div
         id="team-mad-div"
-        class="team border-l-4 border-orange-600 min-h-[15%] min-w-[15%] px-3 my-3"
+        class="team border-l-4 border-zinc-600 min-h-[15%] min-w-[15%] px-3 my-3"
       >
         <h3 class="m-0">&#128544; Team Mad &#128544;</h3>
         <ul id="team-mad"></ul>
+        <div id="mad-score"></div>
       </div>
       <button
         type="button"
@@ -123,10 +125,20 @@
       <h3 id="poetWho"></h3>
       <h3 id="role"></h3>
       <div class="flex flex-row m-auto">
-        <div id="card" class="w-56 border-2 rounded-xl px-5 py-10">
-          1pts
-          <hr />
-          3pts
+        <div id="card" class="w-56 h-60 px-3 border-2 rounded-xl py-4">
+          <div
+            id="one-pt"
+            class="h-[50%] flex flex-wrap content-center justify-center"
+          >
+            1pt
+          </div>
+          <hr class="m-0" />
+          <div
+            id="three-pts"
+            class="h-[50%] flex flex-wrap content-center justify-center"
+          >
+            3pts
+          </div>
         </div>
         <div
           id="men-with-sticks"
@@ -146,10 +158,7 @@
           style="display: none"
         >
           <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
-            1 POINT
-          </button>
-          <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
-            3 POINTS
+            SKIP
           </button>
           <button
             id="wait"
@@ -165,6 +174,14 @@
             style="display: none"
           >
             RESUME
+          </button>
+          <button
+            id="continue"
+            type="button"
+            class="px-3 bg-zinc-200 rounded-sm my-2"
+            style="display: none"
+          >
+            CONTINUE
           </button>
         </div>
       </div>
