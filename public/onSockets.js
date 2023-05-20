@@ -52,9 +52,7 @@ socket.on("neanderthalPoet", (poetName) => {
 
 socket.on("poetYou", (poetName) => {
   roleDiv.innerHTML = `You are the poet!`;
-  neanderthalPoetButtonsDiv.style.display = "flex";
   menWithSticksButtonsDiv.style.display = "none";
-  cardDiv.style.display = "block";
   startRoundButton.style.display = "block";
 });
 
