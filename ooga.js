@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const socketio = require("socket.io");
 const crypto = require("crypto");
+const mysql = require("mysql2");
+
 const Room = require("./classes/Room.js");
 
 const {
@@ -21,6 +23,14 @@ const assignRolesTurns = require("./sockets/assignRolesTurn.js");
 const poetFunctions = require("./sockets/poetFunctions.js");
 
 console.log("Currently listening on port 3000!");
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "user",
+  password: "password",
+  insecureAuth: true,
+  database: "oogabooga",
+});
 
 // on connection, it shall wait on any events from the client
 // on a socket's disconnect, the player would be taken out from the game

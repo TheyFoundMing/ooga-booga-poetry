@@ -43,6 +43,10 @@ const threePointsDiv = document.querySelector("#three-pts");
 const gladScoreDiv = document.querySelector("#glad-score");
 const madScoreDiv = document.querySelector("#mad-score");
 
+const bonkButton = document.querySelector("#bonk");
+const bonkedDiv = document.querySelector("#bonked");
+const continueButton = document.querySelector("#continue");
+
 let playerName = "";
 
 function hideStartJoinGame() {

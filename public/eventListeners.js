@@ -6,6 +6,10 @@ const threePointFunc = (e) => {
   socket.emit("3points");
 };
 
+const bonkFunc = (e) => {
+  socket.emit("bonked");
+};
+
 newRoomDiv.addEventListener("click", (e) => {
   const playerCount = window.prompt("How many players are playing?", 4);
   // needs the player name to not be empty
@@ -98,3 +102,12 @@ resumeButton.addEventListener("click", (e) => {
 
 onePointDiv.addEventListener("click", onePointFunc);
 threePointsDiv.addEventListener("click", threePointFunc);
+
+bonkButton.addEventListener("click", bonkFunc);
+
+continueButton.addEventListener("click", (e) => {
+  socket.emit("continue");
+  neanderthalPoetButtonsDiv.style.display = "flex";
+  cardDiv.style.display = "block";
+  continueButton.style.display = "none";
+});

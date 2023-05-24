@@ -51,6 +51,7 @@ socket.on("neanderthalPoet", (poetName) => {
 });
 
 socket.on("poetYou", (poetName) => {
+  poetDiv.innerHTML = "";
   roleDiv.innerHTML = `You are the poet!`;
   menWithSticksButtonsDiv.style.display = "none";
   startRoundButton.style.display = "block";
@@ -60,7 +61,7 @@ socket.on("manWithStick", () => {
   roleDiv.innerHTML = "Your team is the men with stick!";
   menWithSticksButtonsDiv.style.display = "flex";
   neanderthalPoetButtonsDiv.style.display = "none";
-  cardDiv.style.display = "block";
+  cardDiv.style.display = "none";
   startRoundButton.style.display = "none";
 });
 socket.on("humanGuesser", () => {
@@ -82,13 +83,32 @@ socket.on("timer", (seconds) => {
 
 socket.on("waitRound", () => {
   pauseDiv.style.display = "block";
+  bonkButton.removeEventListener("click", bonkFunc);
 });
 
 socket.on("resumeRound", () => {
   pauseDiv.style.display = "none";
+  bonkButton.addEventListener("click", bonkFunc);
 });
 
 socket.on("scoreboard", (scoreboard) => {
   gladScoreDiv.innerHTML = `${scoreboard.glad} pts`;
   madScoreDiv.innerHTML = `${scoreboard.mad} pts`;
+});
+
+socket.on("poetBonked", (bonkerName) => {
+  bonkButton.removeEventListener("click", bonkFunc);
+  bonkedDiv.innerHTML = `${bonkerName} bonked the poet!`;
+});
+
+socket.on("youBonked", (bonkerName) => {
+  bonkedDiv.innerHTML = `${bonkerName} bonked you!`;
+  neanderthalPoetButtonsDiv.style.display = "none";
+  cardDiv.style.display = "none";
+  continueButton.style.display = "inline-block";
+});
+
+socket.on("continue", () => {
+  bonkButton.addEventListener("click", bonkFunc);
+  bonkedDiv.innerHTML = "";
 });

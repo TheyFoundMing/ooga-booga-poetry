@@ -1,3 +1,5 @@
+const nextPoetTurn = require("./nextPoetTurn");
+
 function poetFunctions(io, socket, currentRoom) {
   // these events are for the actual in-game playthrough
 
@@ -29,15 +31,32 @@ function poetFunctions(io, socket, currentRoom) {
 
   socket.on("bonked", () => {
     currentRoom.timer.pauseTimer();
-    io.to(currentRoom.roomID).emit("poetBonked");
-    io.to(currentRoom.round.currentPoet).emit("youBonked");
+
+    let bonker = "";
+    const gladPlayers = currentRoom.round.getGladPlayers();
+    const madPlayers = currentRoom.round.getMadPlayers();
+
+    if (socket.id in gladPlayers) {
+      bonker = gladPlayers[socket.id];
+    } else {
+      bonker = madPlayers[socket.id];
+    }
+
+    io.to(currentRoom.roomID).emit("poetBonked", bonker);
+    io.to(currentRoom.round.currentPoet).emit("youBonked", bonker);
   });
 
   //   event only after getting bonked, moving onto the next card within the round
   socket.on("continue", () => {
-    currentRoom.timer.resumeTimer();
+    currentRoom.timer.resumeTimer(io, currentRoom, nextPoetTurn);
+    if (currentRoom.round.currentPoetTeam == "glad") {
+      currentRoom.scoreboard.addGladOopsPoint();
+    } else {
+      currentRoom.scoreboard.addMadOopsPoint();
+    }
     io.to(currentRoom.roomID).emit("continue");
   });
+
   socket.on("skipCard", () => {});
 }
 

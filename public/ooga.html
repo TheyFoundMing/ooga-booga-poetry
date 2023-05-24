@@ -119,6 +119,7 @@
       class="prose flex-col min-w-[85%] justify-center text-center"
       style="display: none"
     >
+      <h3 id="bonked"></h3>
       <h3 id="paused" style="display: none">
         The game has been paused by the poet!!!!
       </h3>
@@ -149,7 +150,11 @@
           class="flex flex-col p-8"
           style="display: none"
         >
-          <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
+          <button
+            id="bonk"
+            type="button"
+            class="px-3 bg-zinc-200 rounded-sm my-2"
+          >
             BONK!
           </button>
           <!-- <button type="button" class="px-3 bg-zinc-200 rounded-sm my-2">
@@ -179,14 +184,6 @@
           >
             RESUME
           </button>
-          <button
-            id="continue"
-            type="button"
-            class="px-3 bg-zinc-200 rounded-sm my-2"
-            style="display: none"
-          >
-            CONTINUE
-          </button>
         </div>
       </div>
 
@@ -197,6 +194,14 @@
         style="display: none"
       >
         Start Round
+      </button>
+      <button
+        id="continue"
+        type="button"
+        class="m-auto px-3 bg-zinc-200 rounded-sm my-10 w-56"
+        style="display: none"
+      >
+        CONTINUE
       </button>
     </div>
   </div>
