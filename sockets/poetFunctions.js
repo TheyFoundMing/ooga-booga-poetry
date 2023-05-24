@@ -1,6 +1,6 @@
 const nextPoetTurn = require("./nextPoetTurn");
 
-function poetFunctions(io, socket, currentRoom) {
+function poetFunctions(io, socket, currentRoom, con) {
   // these events are for the actual in-game playthrough
 
   socket.on("1point", () => {
@@ -14,6 +14,8 @@ function poetFunctions(io, socket, currentRoom) {
       "scoreboard",
       currentRoom.scoreboard.getScoreboard()
     );
+
+    getCard(io, socket, currentRoom, con);
   });
 
   socket.on("3points", () => {
@@ -27,6 +29,8 @@ function poetFunctions(io, socket, currentRoom) {
       "scoreboard",
       currentRoom.scoreboard.getScoreboard()
     );
+
+    getCard(io, socket, currentRoom, con);
   });
 
   socket.on("bonked", () => {
@@ -55,11 +59,43 @@ function poetFunctions(io, socket, currentRoom) {
       currentRoom.scoreboard.addMadOopsPoint();
     }
     io.to(currentRoom.roomID).emit("continue");
+    io.to(currentRoom.roomID).emit(
+      "scoreboard",
+      currentRoom.scoreboard.getScoreboard()
+    );
+
+    getCard(io, socket, currentRoom, con);
   });
 
-  socket.on("skipCard", () => {});
+  socket.on("startRound", () => {
+    io.to(currentRoom.roomID).emit("startRound");
+    currentRoom.timer.startTimer(io, currentRoom, nextPoetTurn);
+    getCard(io, socket, currentRoom, con);
+  });
+
+  socket.on("waitRound", () => {
+    currentRoom.timer.pauseTimer();
+    io.to(currentRoom.roomID).emit("waitRound");
+  });
+
+  socket.on("resumeRound", () => {
+    io.to(currentRoom.roomID).emit("resumeRound");
+    currentRoom.timer.resumeTimer(io, currentRoom, nextPoetTurn);
+  });
+
+  socket.on("skipCard", () => {
+    getCard(io, socket, currentRoom, con);
+  });
 }
 
-function changeCard() {}
+function getCard(io, socket, currentRoom, con) {
+  con.query(
+    "SELECT * FROM cards ORDER BY RAND() LIMIT 1;",
+    function (err, result) {
+      if (err) throw err;
+      io.to(currentRoom.round.currentPoet).emit("cardDetails", result[0]);
+    }
+  );
+}
 
 module.exports = poetFunctions;

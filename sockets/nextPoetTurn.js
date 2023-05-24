@@ -1,6 +1,9 @@
 function nextPoetTurn(io, currentRoom) {
   if (currentRoom.round.hasGameEnded()) {
-    io.to(currentRoom.roomID).emit("gameEnd");
+    io.to(currentRoom.roomID).emit(
+      "gameEnd",
+      currentRoom.scoreboard.declareWinner()
+    );
   } else {
     const { poetName, poetID, poetTeam } = currentRoom.round.pickPoet();
     io.to(currentRoom.roomID).emit("neanderthalPoet", poetName);

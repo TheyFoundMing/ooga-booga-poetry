@@ -13,25 +13,14 @@ function assignRolesTurns(io, socket, currentRoom) {
   socket.on("nextTurn", () => {
     if (socket.id == currentRoom.round.currentPoet) {
       if (currentRoom.round.hasGameEnded()) {
-        io.to(currentRoom.roomID).emit("gameEnd");
+        io.to(currentRoom.roomID).emit(
+          "gameEnd",
+          currentRoom.scoreboard.declareWinner()
+        );
       } else {
         nextPoetTurn(io, currentRoom);
       }
     }
-  });
-
-  socket.on("startRound", () => {
-    currentRoom.timer.startTimer(io, currentRoom, nextPoetTurn);
-  });
-
-  socket.on("waitRound", () => {
-    currentRoom.timer.pauseTimer();
-    io.to(currentRoom.roomID).emit("waitRound");
-  });
-
-  socket.on("resumeRound", () => {
-    io.to(currentRoom.roomID).emit("resumeRound");
-    currentRoom.timer.resumeTimer(io, currentRoom, nextPoetTurn);
   });
 }
 

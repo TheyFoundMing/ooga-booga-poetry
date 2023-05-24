@@ -58,6 +58,7 @@ socket.on("poetYou", (poetName) => {
 });
 
 socket.on("manWithStick", () => {
+  bonkButton.removeEventListener("click", bonkFunc);
   roleDiv.innerHTML = "Your team is the men with stick!";
   menWithSticksButtonsDiv.style.display = "flex";
   neanderthalPoetButtonsDiv.style.display = "none";
@@ -72,13 +73,24 @@ socket.on("humanGuesser", () => {
   startRoundButton.style.display = "none";
 });
 
-socket.on("gameEnd", () => {
+socket.on("gameEnd", (winner) => {
   gameDiv.style.display = "none";
   gameEndDiv.style.display = "block";
+  if (winner == "glad") {
+    gameEndDiv.innerHTML = "Team Glad wins!!!!";
+  } else if (winner == "mad") {
+    gameEndDiv.innerHTML = "Team Mad wins!!!!";
+  } else {
+    gameEndDiv.innerHTML = "It's a tie!!!";
+  }
 });
 
 socket.on("timer", (seconds) => {
   timerDiv.innerHTML = seconds;
+});
+
+socket.on("startRound", () => {
+  bonkButton.addEventListener("click", bonkFunc);
 });
 
 socket.on("waitRound", () => {
@@ -111,4 +123,9 @@ socket.on("youBonked", (bonkerName) => {
 socket.on("continue", () => {
   bonkButton.addEventListener("click", bonkFunc);
   bonkedDiv.innerHTML = "";
+});
+
+socket.on("cardDetails", (cardDetails) => {
+  onePointDiv.innerHTML = `<h3 class="m-0">${cardDetails.one_point}</h3>1pt`;
+  threePointsDiv.innerHTML = `<h3 class="m-0">${cardDetails.three_points}</h3>3pt`;
 });

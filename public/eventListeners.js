@@ -10,6 +10,10 @@ const bonkFunc = (e) => {
   socket.emit("bonked");
 };
 
+const skipFunc = (e) => {
+  socket.emit("skipCard");
+};
+
 newRoomDiv.addEventListener("click", (e) => {
   const playerCount = window.prompt("How many players are playing?", 4);
   // needs the player name to not be empty
@@ -88,6 +92,7 @@ waitButton.addEventListener("click", (e) => {
   socket.emit("waitRound");
   onePointDiv.removeEventListener("click", onePointFunc);
   threePointsDiv.removeEventListener("click", threePointFunc);
+  skipButton.removeEventListener("click", skipFunc);
   resumeButton.style.display = "inline-block";
   waitButton.style.display = "none";
 });
@@ -96,6 +101,7 @@ resumeButton.addEventListener("click", (e) => {
   socket.emit("resumeRound");
   onePointDiv.addEventListener("click", onePointFunc);
   threePointsDiv.addEventListener("click", threePointFunc);
+  skipButton.addEventListener("click", skipFunc);
   waitButton.style.display = "inline-block";
   resumeButton.style.display = "none";
 });
@@ -111,3 +117,5 @@ continueButton.addEventListener("click", (e) => {
   cardDiv.style.display = "block";
   continueButton.style.display = "none";
 });
+
+skipButton.addEventListener("click", skipFunc);

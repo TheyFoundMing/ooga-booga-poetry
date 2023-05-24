@@ -29,6 +29,11 @@ class Scoreboard {
   addMadOnePoint() {
     this.madPoints.onePoint += 1;
   }
+
+  addMadOopsPoint() {
+    this.madPoints.oopsPoint += 1;
+  }
+
   getScoreboard() {
     let gladPointsTotal =
       this.gladPoints.threePoints * 3 +
@@ -43,7 +48,7 @@ class Scoreboard {
     return { glad: gladPointsTotal, mad: madPointsTotal };
   }
 
-  determineWinner() {
+  declareWinner() {
     let gladPointsTotal =
       this.gladPoints.threePoints * 3 +
       this.gladPoints.onePoint -

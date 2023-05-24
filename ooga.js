@@ -66,7 +66,7 @@ io.on("connect", (socket) => {
 
     joinTeamEvents(io, socket, currentRoom);
     assignRolesTurns(io, socket, currentRoom);
-    poetFunctions(io, socket, currentRoom);
+    poetFunctions(io, socket, currentRoom, con);
   });
 
   //   callback is dom stuff for script to get rid of the start/join buttons
@@ -92,7 +92,7 @@ io.on("connect", (socket) => {
 
     joinTeamEvents(io, socket, currentRoom);
     assignRolesTurns(io, socket, currentRoom);
-    poetFunctions(io, socket, currentRoom);
+    poetFunctions(io, socket, currentRoom, con);
   });
 });
 

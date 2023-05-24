@@ -47,6 +47,8 @@ const bonkButton = document.querySelector("#bonk");
 const bonkedDiv = document.querySelector("#bonked");
 const continueButton = document.querySelector("#continue");
 
+const skipButton = document.querySelector("#skip");
+
 let playerName = "";
 
 function hideStartJoinGame() {
