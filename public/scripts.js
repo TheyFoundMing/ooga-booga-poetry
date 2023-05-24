@@ -50,9 +50,3 @@ const continueButton = document.querySelector("#continue");
 const skipButton = document.querySelector("#skip");
 
 let playerName = "";
-
-function hideStartJoinGame() {
-  startButtonsDiv.style.display = "none";
-  gameDiv.style.display = "flex";
-  landingDiv.style.display = "none";
-}

@@ -6,74 +6,9 @@ const threePointFunc = (e) => {
   socket.emit("3points");
 };
 
-const bonkFunc = (e) => {
-  socket.emit("bonked");
-};
-
 const skipFunc = (e) => {
   socket.emit("skipCard");
 };
-
-newRoomDiv.addEventListener("click", (e) => {
-  const playerCount = window.prompt("How many players are playing?", 4);
-  // needs the player name to not be empty
-  if (playerCount) {
-    if (playerNameInput.value != "") {
-      playerName = playerNameInput.value;
-      playerNameDiv.style.display = "block";
-      playerNameDiv.innerHTML = playerName;
-
-      socket.emit("newGame", {
-        playerMax: parseInt(playerCount),
-        playerName: playerName,
-      });
-      hideStartJoinGame();
-    } else {
-      alert("Give yourself a name!");
-    }
-  }
-});
-
-joinRoomDiv.addEventListener("click", (e) => {
-  //   const roomID = window.prompt("Enter room ID:");
-  if (playerNameInput.value != "") {
-    playerName = playerNameInput.value;
-    playerNameDiv.style.display = "block";
-    playerNameDiv.innerHTML = playerName;
-
-    if (roomIDInput.value != "") {
-      roomID = roomIDInput.value;
-
-      socket.emit(
-        "joinGame",
-        {
-          playerName: playerName,
-          roomID: roomID,
-        },
-        hideStartJoinGame
-      );
-    } else {
-      socket.emit("newGame", {
-        playerMax: 4,
-        playerName: playerName,
-      });
-      hideStartJoinGame();
-    }
-  } else {
-    alert("Give yourself a name!");
-  }
-});
-
-const joinGladFunc = (e) => {
-  socket.emit("joinGlad", playerName);
-};
-
-const joinMadFunc = (e) => {
-  socket.emit("joinMad", playerName);
-};
-
-teamGladDiv.addEventListener("click", joinGladFunc);
-teamMadDiv.addEventListener("click", joinMadFunc);
 
 startGameDiv.addEventListener("click", (e) => {
   teamGladDiv.removeEventListener("click", joinGladFunc);
@@ -109,8 +44,6 @@ resumeButton.addEventListener("click", (e) => {
 onePointDiv.addEventListener("click", onePointFunc);
 threePointsDiv.addEventListener("click", threePointFunc);
 
-bonkButton.addEventListener("click", bonkFunc);
-
 continueButton.addEventListener("click", (e) => {
   socket.emit("continue");
   neanderthalPoetButtonsDiv.style.display = "flex";
@@ -119,3 +52,36 @@ continueButton.addEventListener("click", (e) => {
 });
 
 skipButton.addEventListener("click", skipFunc);
+
+socket.on("poetYou", (poetName) => {
+  poetDiv.innerHTML = "";
+  roleDiv.innerHTML = `You are the poet!`;
+  menWithSticksButtonsDiv.style.display = "none";
+  startRoundButton.style.display = "block";
+});
+
+socket.on("startRound", () => {
+  bonkButton.addEventListener("click", bonkFunc);
+});
+
+socket.on("waitRound", () => {
+  pauseDiv.style.display = "block";
+  bonkButton.removeEventListener("click", bonkFunc);
+});
+
+socket.on("resumeRound", () => {
+  pauseDiv.style.display = "none";
+  bonkButton.addEventListener("click", bonkFunc);
+});
+
+socket.on("youBonked", (bonkerName) => {
+  bonkedDiv.innerHTML = `${bonkerName} bonked you!`;
+  neanderthalPoetButtonsDiv.style.display = "none";
+  cardDiv.style.display = "none";
+  continueButton.style.display = "inline-block";
+});
+
+socket.on("continue", () => {
+  bonkButton.addEventListener("click", bonkFunc);
+  bonkedDiv.innerHTML = "";
+});
