@@ -69,7 +69,6 @@ io.on("connect", (socket) => {
     poetFunctions(io, socket, currentRoom, con);
   });
 
-  //   callback is dom stuff for script to get rid of the start/join buttons
   socket.on("joinGame", (roomData, callback) => {
     if (roomData.roomID in rooms) {
       currentRoom = rooms[roomData.roomID];
@@ -81,7 +80,15 @@ io.on("connect", (socket) => {
           madPlayers: currentRoom.getMadPlayers(),
           roomID: currentRoom.roomID,
         });
+        // callback is dom stuff for script
+        // to get rid of the start/join buttons
         callback();
+
+        // to make sure that currentRoom is defined AND available
+        // therefore doesn't throw any errors
+        joinTeamEvents(io, socket, currentRoom);
+        assignRolesTurns(io, socket, currentRoom);
+        poetFunctions(io, socket, currentRoom, con);
       } else {
         socket.emit("roomFull");
       }
@@ -89,10 +96,6 @@ io.on("connect", (socket) => {
       console.log("This room doesn't exist");
       socket.emit("roomNone");
     }
-
-    joinTeamEvents(io, socket, currentRoom);
-    assignRolesTurns(io, socket, currentRoom);
-    poetFunctions(io, socket, currentRoom, con);
   });
 });
 
