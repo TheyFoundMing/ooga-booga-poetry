@@ -34,3 +34,7 @@ socket.on("cardDetails", (cardDetails) => {
   onePointDiv.innerHTML = `<h3 class="m-0">${cardDetails.one_point}</h3>1pt`;
   threePointsDiv.innerHTML = `<h3 class="m-0">${cardDetails.three_points}</h3>3pt`;
 });
+
+socket.on("poetTurns", (turns) => {
+  turnsDiv.innerHTML = `Next up: ${turns}`;
+});

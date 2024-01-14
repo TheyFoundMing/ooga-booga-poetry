@@ -7,6 +7,7 @@ function nextPoetTurn(io, currentRoom) {
   } else {
     const { poetName, poetID, poetTeam } = currentRoom.round.pickPoet();
     io.to(currentRoom.roomID).emit("neanderthalPoet", poetName);
+    io.to(currentRoom.roomID).emit("poetTurns", currentRoom.round.getTurns());
 
     if (poetTeam == "glad") {
       Object.keys(currentRoom.round.getGladPlayers()).forEach((player) => {

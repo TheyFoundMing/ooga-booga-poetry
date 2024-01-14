@@ -22,21 +22,11 @@ class Round {
   }
 
   popFromGlad(playerID) {
-    console.log("before pop", this.teamGlad);
     delete this.teamGlad[playerID];
-    console.log("after pop", this.teamGlad);
   }
 
   popFromMad(playerID) {
     delete this.teamMad[playerID];
-  }
-
-  disconnectPlayer(playerID) {
-    if (playerID in this.teamGlad) {
-      this.popFromGlad(playerID);
-    } else {
-      this.popFromMad(playerID);
-    }
   }
 
   // returns the dictionary with both the socketID and names
@@ -44,14 +34,32 @@ class Round {
     return this.teamGlad;
   }
 
+  // returns the dictionary with both the socketID and names
   getMadPlayers() {
     return this.teamMad;
+  }
+
+  identifyPlayer(playerID) {
+    if (playerID in this.teamGlad) {
+      return [playerID, this.teamGlad[playerID], "glad"];
+    } else if (playerID in this.teamMad) {
+      return [playerID, this.teamMad[playerID], "mad"];
+    }
   }
 
   getPlayerCount() {
     return (
       Object.values(this.teamGlad).length + Object.values(this.teamGlad).length
     );
+  }
+
+  getTurns() {
+    let poets = [];
+    this.turns.forEach((player) => {
+      console.log(this.identifyPlayer(player[0])[1]);
+      poets.push(this.identifyPlayer(player[0])[1]);
+    });
+    return poets;
   }
 
   formTurns() {
@@ -62,8 +70,6 @@ class Round {
       this.turns.push([gladPlayers.shift(), "glad"]);
       this.turns.push([madPlayers.shift(), "mad"]);
     }
-
-    console.log(gladPlayers);
 
     if (gladPlayers.length > 0) {
       gladPlayers.forEach((player) => {
@@ -96,6 +102,26 @@ class Round {
   hasGameEnded() {
     return this.turns.length == 0;
   }
+
+  disconnectPlayer(playerID) {
+    if (playerID == this.currentPoet) {
+      this.playerIsPoetLeave(playerID);
+    } else if (this.turns.includes(playerID)) {
+      this.playerNotPoetLeave(playerID);
+    } else {
+      if (playerID in this.teamGlad) {
+        this.popFromGlad(playerID);
+      } else {
+        this.popFromMad(playerID);
+      }
+    }
+  }
+
+  playerIsPoetLeave(playerID) {}
+
+  playerNotPoetLeave(playerID) {}
+
+  replacePlayer(playerID) {}
 }
 
 module.exports = Round;

@@ -48,5 +48,6 @@ const bonkedDiv = document.querySelector("#bonked");
 const continueButton = document.querySelector("#continue");
 
 const skipButton = document.querySelector("#skip");
+const turnsDiv = document.querySelector("#turns");
 
 let playerName = "";
