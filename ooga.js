@@ -23,6 +23,7 @@ const assignRolesTurns = require("./sockets/assignRolesTurn.js");
 const poetFunctions = require("./sockets/poetFunctions.js");
 
 console.log("Currently listening on port 3000!");
+console.log("Access the page through 3000/ooga.html!");
 
 var con = mysql.createConnection({
   host: "localhost",

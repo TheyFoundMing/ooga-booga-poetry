@@ -1,14 +1,14 @@
--- CREATE DATABASE card_deck;
+-- CREATE DATABASE oogabooga;
 -- USE card_deck;
 
 use oogabooga;
 
--- CREATE TABLE cards (
---     card_id INT NOT NULL AUTO_INCREMENT, 
---     one_point VARCHAR(255) NOT NULL,
---     three_points VARCHAR(255) NOT NULL,
---     PRIMARY KEY (card_id)
--- );
+CREATE TABLE cards (
+    card_id INT NOT NULL AUTO_INCREMENT, 
+    one_point VARCHAR(255) NOT NULL,
+    three_points VARCHAR(255) NOT NULL,
+    PRIMARY KEY (card_id)
+);
 
 INSERT INTO cards (one_point, three_points)
 VALUES ("Happy", "Happy Hour");
